@@ -6,11 +6,12 @@ import android.content.Context
 
 
 // create global context for applicaiton
-class Weather : Application() {
+class WeatherApplication : Application() {
 
     companion object{
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+        const val TOKEN = "Zhwtserelvi1b39p"   //token, weather API
     }
 
     override fun onCreate() {
