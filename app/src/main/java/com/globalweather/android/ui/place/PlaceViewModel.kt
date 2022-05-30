@@ -11,6 +11,7 @@ class PlaceViewModel: ViewModel() {
 
     private val searchLiveData = MutableLiveData<String>()
 
+    //用于对界面上显示的城市数据进行缓存
     val placeList = ArrayList<Place>()
 
     val placeLiveData = Transformations.switchMap(searchLiveData){ query->
@@ -18,6 +19,6 @@ class PlaceViewModel: ViewModel() {
     }
 
     fun searchPlaces(query:String){
-        val searchLiveData1 = query
+        searchLiveData.value = query
     }
 }
