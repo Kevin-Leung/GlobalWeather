@@ -7,6 +7,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+//统一的数据源访问入口，对所有网络请求的API进行封装
 object GlobalWeatherNetwork {
     private val placeService = ServiceCreator.create<PlaceService>()
 
