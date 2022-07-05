@@ -21,4 +21,7 @@ class PlaceFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_place, container, false)
     }
 
+
+
+
 }
