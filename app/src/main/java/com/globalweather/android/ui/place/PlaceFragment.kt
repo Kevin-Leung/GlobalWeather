@@ -1,5 +1,6 @@
 package com.globalweather.android.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -11,9 +12,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.ViewModelProvider
+import com.globalweather.android.MainActivity
 import com.globalweather.android.R
 import com.globalweather.android.databinding.FragmentPlaceBinding
 import com.globalweather.android.logic.model.Place
+import com.globalweather.android.ui.weather.WeatherActivity
 
 class PlaceFragment : Fragment(R.layout.fragment_place) {
 
@@ -35,6 +38,19 @@ class PlaceFragment : Fragment(R.layout.fragment_place) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            val intent = Intent(context, WeatherActivity::class.java).apply {
+                putExtra("location_lng", place.location.lng)
+                putExtra("location_lat", place.location.lat)
+                putExtra("place_name", place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         val layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager = layoutManager
         adapter = PlaceAdapter(this, viewModel.placeList)
