@@ -12,7 +12,7 @@
         android:fitsSystemWindows="true">
         <!--fitsSystemWindows="true"表示会为系统状态栏流出空间-->
 
-
+        <!--navBtn用来切换城市-->
         <Button
             android:id="@+id/navBtn"
             android:layout_width="30dp"
