@@ -1,5 +1,6 @@
 package com.globalweather.android.logic
 
+import android.util.Log
 import androidx.lifecycle.liveData
 import com.globalweather.android.logic.dao.PlaceDao
 import com.globalweather.android.logic.model.Place
@@ -81,24 +82,24 @@ object Repository {
         }
     }
 
-    fun refreshWeather(lng:String, lat:String) = fire(Dispatchers.IO){
+    fun refreshWeather(lng: String, lat: String, placeName: String) = fire(Dispatchers.IO) {
         coroutineScope {
-            val deferredRuntime = async {
+            val deferredRealtime = async {
                 GlobalWeatherNetwork.getRealtimeWeather(lng, lat)
             }
             val deferredDaily = async {
                 GlobalWeatherNetwork.getDailyWeather(lng, lat)
             }
-            val realtimeResponse = deferredRuntime.await()
+            val realtimeResponse = deferredRealtime.await()
             val dailyResponse = deferredDaily.await()
-            if(realtimeResponse.status == "ok" && dailyResponse.status == "ok"){
+            if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
                 val weather = Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
                 Result.success(weather)
-            }else{
+            } else {
                 Result.failure(
                     RuntimeException(
                         "realtime response status is ${realtimeResponse.status}" +
-                           "daily response status is ${dailyResponse.status}"
+                                "daily response status is ${dailyResponse.status}"
                     )
                 )
             }
@@ -116,10 +117,10 @@ object Repository {
     //函数声明suspend关键字，表示所有传入的Lambda表达式中的代码也是拥有挂起函数上下文的
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         //在liveData()函数的代码块中统一进行了try catch处理
-        liveData<Result<T>>(context){
+        liveData<Result<T>>(context) {
         val result = try {
             block()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Result.failure<T>(e)
         }
         emit(result)

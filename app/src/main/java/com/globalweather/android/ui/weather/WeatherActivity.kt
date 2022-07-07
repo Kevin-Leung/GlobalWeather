@@ -37,8 +37,9 @@ class WeatherActivity : AppCompatActivity() {
 
         binding = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if(viewModel.locaionLng.isEmpty()){
-            viewModel.locaionLng = intent.getStringExtra("location_lng")?:""
+
+        if(viewModel.locationLng.isEmpty()){
+            viewModel.locationLng = intent.getStringExtra("location_lng")?:""
         }
         if(viewModel.locationLat.isEmpty()){
             viewModel.locationLat = intent.getStringExtra("location_lat")?:""
@@ -48,7 +49,7 @@ class WeatherActivity : AppCompatActivity() {
         }
         viewModel.weatherLiveData.observe(this, Observer { result->
             val weather = result.getOrNull()
-            if(weather!=null){
+            if(weather != null){
                 showWeatherInfo(weather)
             }else{
                 Toast.makeText(this,"cannot get weather infomation", Toast.LENGTH_SHORT).show()
@@ -80,7 +81,7 @@ class WeatherActivity : AppCompatActivity() {
 
 
     fun refreshWeather(){
-        viewModel.refreshWeather(viewModel.locaionLng,viewModel.locationLat)
+        viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
         binding.swipeRefresh.isRefreshing = true
     }
 

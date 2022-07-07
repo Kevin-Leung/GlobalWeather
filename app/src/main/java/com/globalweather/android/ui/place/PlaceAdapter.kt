@@ -32,7 +32,7 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
             //然后刷新城市的天气
             if(activity is WeatherActivity){
                 activity.binding.drawerLayout.closeDrawers()
-                activity.viewModel.locaionLng = place.location.lng
+                activity.viewModel.locationLng = place.location.lng
                 activity.viewModel.locationLat = place.location.lat
                 activity.viewModel.placeName = place.name
                 activity.refreshWeather()
